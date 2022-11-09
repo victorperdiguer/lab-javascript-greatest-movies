@@ -19,9 +19,17 @@ function howManyMovies(moviesArray) {
 
 // Iteration 3: All scores average - Get the average of all scores with 2 decimals
 function scoresAverage(moviesArray) {
-    const scoresOnly = moviesArray.map(elem => elem.score);
+    //filter out movies with no score because empty values crash the reduce method
+    const moviesWithScores = moviesArray.filter(elem => elem.hasOwnProperty('score') && elem.score != '');
+    //array with only the scores
+    const scoresOnly = moviesWithScores.map(elem => elem.score);
+    //reduce that array, but before let's do an empty array check
+    if (scoresOnly.length === 0) {
+        return 0;
+    }
     const scoreSum = scoresOnly.reduce((prev, current) => prev + current);
-    return (scoreSum/moviesArray.length).toFixed(2);
+    //force Number and calculate average
+    return Number((scoreSum/moviesArray.length).toFixed(2));
 }
 
 // Iteration 4: Drama movies - Get the average of Drama Movies
